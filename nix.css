@@ -1,0 +1,239 @@
+/*@font-face {*/
+/*	font-family: 'vt323';*/
+/*	src: url('/fontes/VT323-Regular.ttf');*/
+/*}*/
+
+@font-face {
+    font-family: "FreePixel";
+    src: url("https://sadhost.neocities.org/fonts/FreePixel.ttf") format("truetype");
+    }
+    
+    @font-face {
+    font-family: "SFPixelate";
+    src: url("./fontes/SFPixelate-Bold.ttf") format("truetype");
+    }
+    
+    
+    
+    /* This will work on Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: magenta yellow;
+    }
+    
+    /* Targtes on Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+      width: 12px;
+    }
+    
+    *::-webkit-scrollbar-track {
+      background: green;
+    }
+    
+    *::-webkit-scrollbar-thumb {
+      background-color: blue;
+      border-radius: 20px;
+      border: 3px solid orange;
+    }
+    
+    body {font-family: SFPixelate; background-color: black;font-size: 133%; margin: 0 auto; max-width: 75%; color: #79ffa0;
+        /*background-image:url(/img/background_2.gif);*/
+        background-image:url(./img/twinkling-stars.gif);
+        background-repeat:repeat;  
+        
+    }
+
+    
+    #principal{ 
+        background-color: black;
+        padding: 2%;
+    }
+
+    .main{
+    border-radius: 10px;
+    filter: pixelate(20px); 
+    opacity: 0.8;
+    width: 50VH;
+
+    }
+    .main2{
+      border-radius: 10px;
+      filter: pixelate(20px); 
+      width: 100px;
+    }
+
+    #bgguestbook {
+        background-image: url(../src/twinkling-stars.gif);
+    }
+    
+    ul li{margin-bottom: 0.4%;}
+    pre{overflow-x: auto;white-space: pre-wrap;}
+    #code{background-color: black; color: white; padding: 1%; border: solid 2px gold; border-radius: 5px; border-left: 6px solid magenta;}
+    
+    article{ margin-top: 4%; margin-bottom: 4%;}
+    
+    nav ul {list-style-type: none; background-color: black; box-shadow: 9px 6px #7a04eb; padding: 5%;}
+    nav ul li {display: inline;}
+    nav a:link{color: white; padding: 1.2%; font-size: 1.1em; text-decoration: none;}
+    nav a:hover{color: yellow;}
+    
+    a:link{color: white;}
+    a:hover{color: #9900ff;}
+    a:visited{color: white;}
+    
+    .saibamais a:link {font-size: 1.5em;}
+    
+    .meuscursos li{list-style-type: none;}
+    
+    .logo{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 1%;
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    .patrocinio img{ padding: 1%;}
+    
+    /*Snowflake*/
+    iframe {background-color: white;}
+    
+    blink {
+                animation: blinker 0.9s linear infinite;
+                color: yellow;
+                font-family: sans-serif;
+    }
+    
+    @keyframes blinker {
+          0% { opacity: 20; color: white;}
+          50% { opacity: 50; color: red;}
+          100% { opacity: 100;}
+    }
+    
+    @media only screen and (max-width: 480px)
+    {
+      body { margin: 2%; max-width: 100%; font-size: 110%;}
+      nav {width: 100%; }
+      nav ul {background-color: black; box-shadow: 1px 1px black;}
+      nav ul li {margin-bottom: 16%; display: block;}
+      pre{white-space: pre-wrap; flex-grow: 1; text-align: center;}
+      nav a:link{color: white; background-color: #120458; padding: 5%; font-size: 1.5em; box-shadow: 5px 5px #7a04eb; cursor: pointer;}
+      nav a:visited{ color: white;}
+      nav a:hover{color: yellow;}
+      .planet1{position: absolute; width: 20%; margin-left: 70%;}
+    }
+    
+    
+    
+    @import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
+    
+    
+    #progress {
+      /*STEP 1 |||||||||||||||||||||||*/
+      /*||||||||||||CHANGE||||||||||||*/
+      width: 100%;
+    
+      /*||||||||||PERCENTAGE||||||||||*/
+      /*||||||||||||||||||||||||||||||*/
+      /*Next step is at the bottom! Scroll down!*/
+    
+      float: left;
+      border-radius: 6px;
+      height: 20px;
+      background: #36b8e9; /* For browsers that do not support gradients */
+      background: -webkit-linear-gradient(
+        -90deg,
+        #71f7f2,
+        #36b8e9
+      ); /* For Safari 5.1 to 6.0 */
+      background: -moz-linear-gradient(
+        -90deg,
+        #71f7f2,
+        #36b8e9
+      ); /* For Firefox 3.6 to 15 */
+      background: linear-gradient(-90deg, #71f7f2, #36b8e9); /* Standard syntax */
+      z-index: 333;
+      -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25),
+        0 1px rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25),
+        0 1px rgba(255, 255, 255, 0.08);
+    }
+    
+    #countdown-wrap {
+      width: 120%;
+      height: 160px;
+      padding: 20px;
+      font-family: "Roboto", sans-serif, Arial;
+      font-weight: 500;
+    }
+    #goal {
+      font-size: 35px;
+      text-align: right;
+      width: 80%;
+    }
+    @media only screen and (max-width: 540px) {
+      #goal {
+        text-align: center;
+      }
+    }
+    
+    #glass {
+      width: 80%;
+      height: 20px;
+      border-radius: 6px;
+      float: left;
+      overflow: hidden;
+      background-color: #dee0e0;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5) inset;
+    }
+    .goal-stat {
+      width: 20%;
+      height: 30px;
+      padding: 10px;
+      float: left;
+      margin: 0;
+    }
+    @media only screen and (max-width: 540px) {
+      .goal-stat {
+        width: 40%;
+        text-align: center;
+      }
+    }
+    .goal-number,
+    .goal-label {
+      display: block;
+      font-size: 20px;
+    }
+    .goal-number {
+      font-weight: bold;
+    }
+    #goal-words {
+      float: right;
+      width: 26%;
+      font-size: 25px;
+    }
+    
+    .aju li{margin-top: 1%; color: white;}
+    
+    
+    .planet1{
+        position: absolute;
+        top: 42%;
+        left: 4%;
+    }
+    
+    .planet2{
+        width:8%;
+        position: absolute;
+        top: 99%;
+        left: 90%;
+    }
+    
+    
+    video {
+      /* override other styles to make responsive */
+      width: 100%    !important;
+      height: auto   !important;
+    }
+    
