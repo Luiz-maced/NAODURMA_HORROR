@@ -18,7 +18,6 @@
         <a href="../index.html">Início</a>
         <a href="index2.html">Sobre</a>
         <a href="index3.html" class="active">Podcast</a>
-        <a href="index4.html">YouTube</a>
         <a href="index5.html">Instagram</a>
       </nav>
     </header>
@@ -66,20 +65,15 @@
 
   <script>
     const latestEpisodePlayer = document.getElementById('latestEpisodePlayer');
-    const podcastRssUrl = 'https://omny.fm/shows/n-o-durma-horror/playlists/podcast.rss';
-
     async function loadLatestEpisode() {
       try {
-        const response = await fetch(`${podcastRssUrl}?t=${Date.now()}`);
-        if (!response.ok) throw new Error(`RSS falhou com status ${response.status}`);
+        const response = await fetch('../.netlify/functions/latest-episode');
+        if (!response.ok) throw new Error(`Function falhou com status ${response.status}`);
 
-        const rssText = await response.text();
-        const rssDocument = new DOMParser().parseFromString(rssText, 'application/xml');
-        const firstEpisode = rssDocument.querySelector('item');
-        const episodeLink = firstEpisode?.querySelector('link')?.textContent?.trim();
-        const episodeTitle = firstEpisode?.querySelector('title')?.textContent?.trim();
-
-        if (!episodeLink) throw new Error('Nenhum episódio encontrado no RSS');
+        const episode = await response.json();
+        const episodeLink = episode.link;
+        const episodeTitle = episode.title;
+        if (!episodeLink) throw new Error('Nenhum episódio encontrado');
 
         latestEpisodePlayer.src = `${episodeLink.replace(/\/$/, '')}/embed?media=audio&size=square&style=cover`;
         latestEpisodePlayer.title = episodeTitle || 'Último episódio do Não Durma Horror';
