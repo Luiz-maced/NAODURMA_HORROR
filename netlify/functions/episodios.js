@@ -1,4 +1,12 @@
-exports.handler = async function () {
+exports.handler = async function (event) {
+  if (event.httpMethod !== 'GET') {
+    return { statusCode: 405, headers: { Allow: 'GET' }, body: 'Method Not Allowed' };
+  }
+
+  if (!process.env.OMNY_API_TOKEN) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'OMNY_API_TOKEN não configurado' }) };
+  }
+
   const url =
     'https://api.omnystudio.com/v1/clips/search' +
     '?visibilityFilter=Unlisted&pageSize=50&sortBy=DateNewest';
@@ -16,7 +24,8 @@ exports.handler = async function () {
       statusCode: response.status,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Cache-Control': 'no-store',
+        'X-Robots-Tag': 'noindex'
       },
       body
     };
