@@ -7,7 +7,7 @@
   <meta name="keywords" content="Não Durma, horror, podcast, terror, contos, relatos, assombrados" />
   <meta name="author" content="Luiz / Não Durma Horror" />
   <title>Não Durma | Horror</title>
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="nix.css" />
 </head>
 <body>
@@ -57,43 +57,6 @@
         </div>
       </section>
 
-      <section class="analytics-status" aria-label="Status das métricas">
-        <div class="section-heading">
-          <p class="eyebrow">Métricas ao vivo</p>
-          <h2>Status do Analytics</h2>
-        </div>
-        <div class="analytics-panel">
-          <div class="analytics-summary">
-            <div class="analytics-state">
-              <span class="analytics-dot" id="analyticsDot"></span>
-              <strong id="analyticsStatus">Consultando a API do Omny...</strong>
-            </div>
-            <button class="analytics-refresh" id="analyticsRefresh" type="button">Atualizar</button>
-          </div>
-          <div class="analytics-meter" aria-hidden="true">
-            <span id="analyticsMeterFill"></span>
-          </div>
-          <div class="analytics-details">
-            <div>
-              <span>Dados processados até</span>
-              <strong id="rollupProgress">--</strong>
-            </div>
-            <div>
-              <span>Último evento recebido</span>
-              <strong id="latestAnalyticsEvent">--</strong>
-            </div>
-            <div>
-              <span>Atraso calculado</span>
-              <strong id="analyticsDelay">--</strong>
-            </div>
-            <div>
-              <span>Consulta realizada em</span>
-              <strong id="analyticsCheckedAt">--</strong>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section class="feature-grid" aria-label="Principais destaques">
         <article class="card">
           <span class="card-tag">Sobre</span>
@@ -117,65 +80,5 @@
     </footer>
   </div>
 
-  <script>
-    const analyticsStatus = document.getElementById('analyticsStatus');
-    const analyticsDot = document.getElementById('analyticsDot');
-    const analyticsRefresh = document.getElementById('analyticsRefresh');
-    const analyticsMeterFill = document.getElementById('analyticsMeterFill');
-    const rollupProgress = document.getElementById('rollupProgress');
-    const latestAnalyticsEvent = document.getElementById('latestAnalyticsEvent');
-    const analyticsDelay = document.getElementById('analyticsDelay');
-    const analyticsCheckedAt = document.getElementById('analyticsCheckedAt');
-
-    function formatAnalyticsDate(value) {
-      if (!value) return '--';
-      return new Intl.DateTimeFormat('pt-BR', {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-        timeZone: 'America/Sao_Paulo'
-      }).format(new Date(value));
-    }
-
-    function formatDelay(minutes) {
-      if (minutes < 1) return 'menos de 1 min';
-      if (minutes < 60) return `${Math.round(minutes)} min`;
-      return `${Math.floor(minutes / 60)}h ${Math.round(minutes % 60)}min`;
-    }
-
-    async function loadAnalyticsProgress() {
-      analyticsRefresh.disabled = true;
-      analyticsStatus.textContent = 'Atualizando métricas...';
-      analyticsDot.className = 'analytics-dot loading';
-      try {
-        const response = await fetch(`/.netlify/functions/analytics-progress?t=${Date.now()}`);
-        if (!response.ok) throw new Error(`Analytics retornou ${response.status}`);
-
-        const progress = await response.json();
-        const rollupDate = new Date(progress.RollupProgress);
-        const newestEventDate = new Date(progress.NewestUnrolledUpEventUtc);
-        const delayMinutes = Math.max(0, (newestEventDate - rollupDate) / 60000);
-        const isDelayed = progress.IngestionDelayExceededTolerancePeriod;
-        rollupProgress.textContent = formatAnalyticsDate(progress.RollupProgress);
-        latestAnalyticsEvent.textContent = formatAnalyticsDate(progress.NewestUnrolledUpEventUtc);
-        analyticsDelay.textContent = formatDelay(delayMinutes);
-        analyticsCheckedAt.textContent = formatAnalyticsDate(new Date());
-        analyticsStatus.textContent = isDelayed
-          ? 'A API está processando os dados com atraso.'
-          : 'A API está atualizada e recebendo dados normalmente.';
-        analyticsDot.className = `analytics-dot ${isDelayed ? 'delayed' : 'ready'}`;
-        analyticsMeterFill.style.width = isDelayed ? '58%' : '100%';
-      } catch (error) {
-        console.error('Erro ao carregar status do Analytics:', error);
-        analyticsStatus.textContent = 'Não foi possível consultar as métricas agora.';
-        analyticsDot.className = 'analytics-dot error';
-        analyticsMeterFill.style.width = '0';
-      } finally {
-        analyticsRefresh.disabled = false;
-      }
-    }
-
-    analyticsRefresh.addEventListener('click', loadAnalyticsProgress);
-    loadAnalyticsProgress();
-  </script>
 </body>
 </html>
