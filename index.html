@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Não Durma Horror — podcast de contos de terror, relatos assombrados e histórias de suspense." />
+  <meta name="keywords" content="Não Durma, horror, podcast, terror, contos, relatos, assombrados" />
+  <meta name="author" content="Luiz / Não Durma Horror" />
+  <title>Não Durma | Horror</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="nix.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">Não Durma</div>
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="index.html" class="active">Início</a>
+        <a href="cursos/index2.html">Sobre</a>
+        <a href="cursos/index3.html">Podcast</a>
+        <a href="cursos/index5.html">Instagram</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Podcast de terror</p>
+          <h1>Não Durma Horror</h1>
+          <p>
+            Seja bem-vindo ao Não Durma, o seu podcast de contos de terror e relatos assombrados.
+            Aqui, histórias sinistras ganham forma, suspense toma conta e a noite nunca fica segura.
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="cursos/index3.html">Ouça o podcast</a>
+            <a class="btn secondary" href="cursos/index2.html">Conheça o Luiz</a>
+            <a class="btn secondary" href="episodios.html">Episódios exclusivos</a>
+          </div>
+        </div>
+        <img class="hero-image" src="img/Now Showing.gif" alt="GIF de abertura do podcast Não Durma Horror" />
+      </section>
+
+      <section class="episodes" aria-label="Lista de episódios">
+        <div class="section-heading">
+          <p class="eyebrow">Episódios</p>
+          <h2>Últimos lançamentos</h2>
+        </div>
+
+        <div class="episode-list">
+          <a class="episode-item episode-link" href="https://pod.link/6809985396?view=episodes&sortEp=newest" target="_blank" rel="noreferrer">
+            <span class="episode-number">EP</span>
+            <div>
+              <h3>Ver todos os episódios</h3>
+              <p>Acesse a página oficial com os lançamentos mais recentes do podcast Não Durma Horror.</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="analytics-status" aria-label="Status das métricas">
+        <div class="section-heading">
+          <p class="eyebrow">Métricas ao vivo</p>
+          <h2>Status do Analytics</h2>
+        </div>
+        <div class="analytics-panel">
+          <div class="analytics-meter" aria-hidden="true">
+            <span id="analyticsMeterFill"></span>
+          </div>
+          <p id="analyticsStatus">Consultando a API do Omny...</p>
+          <div class="analytics-details">
+            <div>
+              <span>Dados processados até</span>
+              <strong id="rollupProgress">--</strong>
+            </div>
+            <div>
+              <span>Último evento recebido</span>
+              <strong id="latestAnalyticsEvent">--</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature-grid" aria-label="Principais destaques">
+        <article class="card">
+          <span class="card-tag">Sobre</span>
+          <h2>O criador</h2>
+          <p>Conheça a origem da ideia, a paixão pelo gênero e o contexto por trás do projeto.</p>
+          <a href="cursos/index2.html">Ler mais</a>
+        </article>
+
+        <article class="card">
+          <span class="card-tag">Podcast</span>
+          <h2>Histórias que assustam</h2>
+          <p>Uma jornada de contos, relatos e momentos de terror que despertam a curiosidade e o medo.</p>
+          <a href="cursos/index3.html">Entrar no podcast</a>
+        </article>
+
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 Não Durma Horror</p>
+    </footer>
+  </div>
+
+  <script>
+    const analyticsStatus = document.getElementById('analyticsStatus');
+    const analyticsMeterFill = document.getElementById('analyticsMeterFill');
+    const rollupProgress = document.getElementById('rollupProgress');
+    const latestAnalyticsEvent = document.getElementById('latestAnalyticsEvent');
+
+    function formatAnalyticsDate(value) {
+      if (!value) return '--';
+      return new Intl.DateTimeFormat('pt-BR', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+        timeZone: 'America/Sao_Paulo'
+      }).format(new Date(value));
+    }
+
+    async function loadAnalyticsProgress() {
+      try {
+        const response = await fetch('/.netlify/functions/analytics-progress');
+        if (!response.ok) throw new Error(`Analytics retornou ${response.status}`);
+
+        const progress = await response.json();
+        rollupProgress.textContent = formatAnalyticsDate(progress.RollupProgress);
+        latestAnalyticsEvent.textContent = formatAnalyticsDate(progress.NewestUnrolledUpEventUtc);
+        analyticsStatus.textContent = progress.IngestionDelayExceededTolerancePeriod
+          ? 'A API está processando os dados com atraso.'
+          : 'A API está atualizada e recebendo dados normalmente.';
+        analyticsMeterFill.style.width = progress.IngestionDelayExceededTolerancePeriod ? '58%' : '100%';
+      } catch (error) {
+        console.error('Erro ao carregar status do Analytics:', error);
+        analyticsStatus.textContent = 'Não foi possível consultar as métricas agora.';
+        analyticsMeterFill.style.width = '0';
+      }
+    }
+
+    loadAnalyticsProgress();
+  </script>
+</body>
+</html>

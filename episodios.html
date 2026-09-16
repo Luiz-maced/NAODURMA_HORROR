@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Episódios não listados do Não Durma Horror." />
+  <title>Episódios exclusivos | Não Durma</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="nix.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">Não Durma</div>
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="cursos/index2.html">Sobre</a>
+        <a href="cursos/index3.html">Podcast</a>
+        <a href="episodios.html" class="active">Episódios exclusivos</a>
+        <a href="cursos/index5.html">Instagram</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <p class="eyebrow">Conteúdo especial</p>
+        <h1>Episódios não listados</h1>
+        <p class="page-copy">Uma seleção de episódios que não aparece nos diretórios públicos.</p>
+      </div>
+
+      <section aria-label="Episódios não listados">
+        <div id="episodeList" class="exclusive-episodes">
+          <p class="loading-message">Carregando episódios...</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 Não Durma Horror</p>
+    </footer>
+  </div>
+
+  <script>
+    const episodeList = document.getElementById('episodeList');
+
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>'"]/g, (character) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      })[character]);
+    }
+
+    function getEmbedUrl(clip) {
+      const sourceUrl = clip?.Urls?.EmbedUrl || clip?.Urls?.ShowPageUrl;
+      if (!sourceUrl) return '';
+      return sourceUrl.includes('/embed')
+        ? sourceUrl
+        : `${sourceUrl.replace(/\/$/, '')}/embed?media=audio&size=square&style=cover`;
+    }
+
+    function renderEpisodes(items) {
+      if (!items.length) {
+        episodeList.innerHTML = '<p class="empty-state">Nenhum episódio não listado disponível no momento.</p>';
+        return;
+      }
+
+      episodeList.innerHTML = items.map((clip) => {
+        const title = escapeHtml(clip.Title || 'Episódio exclusivo');
+        const description = escapeHtml(clip.ShortSummary || clip.Description || 'Conteúdo especial do podcast.');
+        const embedUrl = escapeHtml(getEmbedUrl(clip));
+
+        return `
+          <article class="exclusive-episode">
+            <div>
+              <span class="card-tag">Não listado</span>
+              <h2>${title}</h2>
+              <p>${description}</p>
+            </div>
+            <iframe
+              src="${embedUrl}"
+              allow="autoplay; clipboard-write; fullscreen"
+              allowfullscreen
+              width="320"
+              height="320"
+              frameborder="0"
+              title="${title}"
+            ></iframe>
+          </article>
+        `;
+      }).join('');
+    }
+
+    async function loadEpisodes() {
+      try {
+        const response = await fetch('/.netlify/functions/episodios');
+        if (!response.ok) throw new Error(`API retornou ${response.status}`);
+
+        const payload = await response.json();
+        renderEpisodes(payload.Items || payload.items || []);
+      } catch (error) {
+        console.error('Erro ao carregar episódios não listados:', error);
+        episodeList.innerHTML = '<p class="empty-state">Não foi possível carregar os episódios agora.</p>';
+      }
+    }
+
+    loadEpisodes();
+  </script>
+</body>
+</html>

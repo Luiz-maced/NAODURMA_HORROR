@@ -1,20 +1,25 @@
-button {
+.social-button {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 130px;
   height: 35px;
   border-radius: 30px;
   background-color: white;
   border: 1px #FFB700 solid;
   overflow: hidden;
+  text-decoration: none;
+  color: #111;
 }
 
-.text1 {
+.social-button .text1 {
   font-size: 15px;
   font-weight: 600;
   margin-left: 22%;
 }
 
-.text2 {
+.social-button .text2 {
   position: absolute;
   top: 25%;
   left: -50px;
@@ -23,14 +28,14 @@ button {
   color: white;
 }
 
-.icon {
+.social-button .icon {
   position: absolute;
   top: 0;
   left: 0;
   transition: transform 0.5s;
 }
 
-.icon::before {
+.social-button .icon::before {
   position: absolute;
   left: -100px;
   top: 0;
@@ -40,19 +45,18 @@ button {
   height: 33px;
   border-radius: 30px;
   background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-  ;
 }
 
-button:hover .icon {
+.social-button:hover .icon {
   transform: translateX(96px);
   transition: transform 0.5s;
 }
 
-button:hover .text2 {
+.social-button:hover .text2 {
   transform: translateX(100px);
   transition: transform 0.6s;
 }
 
-button:active {
+.social-button:active {
   transform: scale(1.03);
 }
