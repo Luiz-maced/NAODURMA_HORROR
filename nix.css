@@ -256,6 +256,66 @@ h1 {
   padding: 20px;
 }
 
+.analytics-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.analytics-state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.analytics-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.analytics-dot.ready {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.analytics-dot.delayed,
+.analytics-dot.error {
+  background: var(--accent-3);
+  box-shadow: 0 0 10px var(--accent-3);
+}
+
+.analytics-dot.loading {
+  animation: analytics-pulse 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes analytics-pulse {
+  from { opacity: 0.35; }
+  to { opacity: 1; }
+}
+
+.analytics-refresh {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.analytics-refresh:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.analytics-refresh:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
 .analytics-meter {
   height: 10px;
   background: rgba(255, 255, 255, 0.08);
@@ -457,6 +517,10 @@ h1 {
   .page-layout,
   .feature-grid,
   .exclusive-episode {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-details {
     grid-template-columns: 1fr;
   }
 
